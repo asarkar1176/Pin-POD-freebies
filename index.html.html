@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Printlypop — Free Pinterest Toolkit for POD Sellers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pop:#FF3131;      /* the single accent — CTAs only */
+    --ink:#1A1A1A;
+    --paper:#FBFAF4;
+    --cream:#F3F5EB;
+    --blush:#EBD6D2;
+    --slate:#8090AF;
+    --pop-deep:#D62828;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,Arial,sans-serif;
+    background:var(--paper);color:var(--ink);
+    line-height:1.55;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  section{padding:clamp(56px,9vw,104px) 0}
+
+  /* type */
+  .display{font-family:'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:-.03em;line-height:.92}
+  .script{font-family:'Great Vibes',cursive;color:var(--slate);line-height:1}
+  .eyebrow{font-family:'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--slate)}
+
+  /* buttons — the pop lives here */
+  .btn{
+    display:inline-block;font-family:'Archivo Black',sans-serif;text-transform:uppercase;
+    letter-spacing:.02em;font-size:15px;background:var(--pop);color:#fff;
+    padding:17px 34px;border:none;border-radius:2px;cursor:pointer;text-decoration:none;
+    transition:transform .12s ease,background .12s ease;
+  }
+  .btn:hover{background:var(--pop-deep);transform:translateY(-2px)}
+  .btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+  .textlink{color:var(--ink);font-weight:600;text-decoration:none;border-bottom:2px solid var(--blush);padding-bottom:1px}
+  .textlink:hover{border-color:var(--ink)}
+
+  /* top bar */
+  .bar{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+  .bar .mark{font-family:'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:-.02em;font-size:19px}
+  .bar .mark span{color:var(--pop)}
+  .bar a.nav{font-weight:600;font-size:14px;color:var(--ink);text-decoration:none;opacity:.7}
+  .bar a.nav:hover{opacity:1}
+
+  /* hero */
+  .hero{padding-top:14px}
+  .hero h1{font-size:clamp(40px,8.2vw,86px);margin:18px 0 0}
+  .hero .script{font-size:clamp(34px,7vw,64px);margin:6px 0 0}
+  .hero p.lead{font-size:clamp(17px,2.2vw,21px);max-width:30ch;margin:26px 0 32px;color:#333}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+  .cta-row{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+
+  /* hero pin stack (signature) */
+  .pinstack{position:relative;height:360px}
+  .pin{
+    position:absolute;width:150px;height:216px;border-radius:14px;
+    background:#fff;border:2px solid var(--ink);
+    box-shadow:6px 8px 0 rgba(26,26,26,.9);
+    display:flex;flex-direction:column;justify-content:space-between;padding:14px;
+  }
+  .pin .tag{font-family:'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:10px;color:var(--slate)}
+  .pin .big{font-family:'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:-.02em;font-size:22px;line-height:.95}
+  .pin .save{align-self:flex-end;width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:15px}
+  .pin.p1{left:8%;top:20px;transform:rotate(-8deg);background:var(--cream)}
+  .pin.p2{left:34%;top:74px;transform:rotate(3deg);z-index:2}
+  .pin.p3{left:60%;top:20px;transform:rotate(9deg);background:var(--blush)}
+  /* hero keeps a single pop — the CTA button — so the pin saves stay ink */
+
+  /* problem section */
+  .problem{background:var(--cream)}
+  .problem h2{font-size:clamp(26px,4.4vw,42px);max-width:16ch;margin-bottom:8px}
+  .problem .sub{color:#444;max-width:46ch;margin-bottom:40px;font-size:17px}
+  .pains{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .pain{background:var(--paper);border:2px solid var(--ink);border-radius:12px;padding:26px}
+  .pain .n{font-family:'Archivo Black',sans-serif;font-size:26px;color:var(--slate);line-height:1}
+  .pain p{margin-top:12px;font-weight:500}
+  .pain b{font-weight:700}
+  .fixline{margin-top:36px;font-family:'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:-.01em;
+    font-size:clamp(18px,2.6vw,26px)}
+  .fixline em{font-style:normal;color:var(--pop)}
+
+  /* freebie section */
+  .toolkit h2{font-size:clamp(28px,5vw,48px);text-align:center}
+  .toolkit .kicker{text-align:center;color:#444;max-width:42ch;margin:14px auto 52px;font-size:17px}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .card{
+    background:#fff;border:2px solid var(--ink);border-radius:16px;overflow:hidden;
+    display:flex;flex-direction:column;box-shadow:5px 6px 0 rgba(26,26,26,.85);
+  }
+  .card .top{padding:22px 22px 18px;border-bottom:2px solid var(--ink)}
+  .card .verb{font-family:'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;color:var(--slate)}
+  .card h3{font-family:'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:-.02em;
+    font-size:20px;line-height:1;margin-top:10px}
+  .card .body{padding:20px 22px 24px;display:flex;flex-direction:column;gap:16px;flex:1}
+  .card .why{font-weight:700;font-size:16.5px}
+  .card .what{font-size:15px;color:#444}
+  .card .what .lbl{font-family:'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:.08em;
+    font-size:10.5px;color:var(--slate);display:block;margin-bottom:6px}
+  .card .fmt{margin-top:auto;font-size:12px;color:var(--slate);font-weight:600;letter-spacing:.02em}
+  .card.c1 .top{background:var(--cream)}
+  .card.c2 .top{background:var(--blush)}
+  .card.c3 .top{background:#E3EAF3}
+
+  /* opt-in */
+  .optin{margin-top:56px;background:var(--ink);color:var(--paper);border-radius:18px;
+    padding:clamp(30px,5vw,52px);text-align:center}
+  .optin h3{font-family:'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:-.02em;
+    font-size:clamp(22px,3.6vw,34px);line-height:1}
+  .optin p{color:#cfd3dc;margin:12px auto 26px;max-width:44ch}
+  .form{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;max-width:520px;margin:0 auto}
+  .form input{
+    flex:1;min-width:220px;padding:16px 18px;border-radius:2px;border:2px solid #3a3a3a;
+    background:#242424;color:#fff;font-family:'Inter',sans-serif;font-size:15px;
+  }
+  .form input::placeholder{color:#8a8f99}
+  .form input:focus{outline:none;border-color:var(--pop)}
+  .optin .fine{margin-top:16px;font-size:12.5px;color:#8a8f99}
+
+  /* paid product */
+  .paid{background:var(--blush)}
+  .paid .inner{background:var(--paper);border:2px solid var(--ink);border-radius:20px;
+    box-shadow:8px 10px 0 rgba(26,26,26,.9);padding:clamp(32px,6vw,64px);
+    display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center}
+  .paid .eyebrow{margin-bottom:14px}
+  .paid h2{font-family:'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:-.03em;
+    font-size:clamp(28px,4.6vw,46px);line-height:.94}
+  .paid p.desc{margin:18px 0 8px;font-size:17px;color:#333;max-width:40ch}
+  .paid ul{list-style:none;margin:14px 0 28px}
+  .paid li{padding:7px 0 7px 28px;position:relative;font-weight:500}
+  .paid li::before{content:"→";position:absolute;left:0;color:var(--pop);font-weight:700}
+  .paid .price{display:flex;align-items:baseline;gap:12px;margin-bottom:20px}
+  .paid .price .now{font-family:'Archivo Black',sans-serif;font-size:40px;letter-spacing:-.02em}
+  .paid .price .was{color:var(--slate);text-decoration:line-through;font-weight:700;font-size:20px}
+  .paid .price .tag{font-size:12px;font-weight:700;color:var(--pop);text-transform:uppercase;letter-spacing:.06em}
+  .paid .card-visual{
+    aspect-ratio:4/5;border-radius:16px;border:2px solid var(--ink);
+    background:linear-gradient(160deg,var(--ink) 0%,#2b2b2b 100%);color:var(--paper);
+    padding:30px;display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .paid .card-visual .kd{font-family:'Archivo Black',sans-serif;text-transform:uppercase;
+    letter-spacing:-.02em;font-size:clamp(24px,3.4vw,34px);line-height:.96}
+  .paid .card-visual .kmeta{font-size:13px;color:#b8bdc8;font-weight:600}
+  .paid .card-visual .dot{width:44px;height:44px;border-radius:50%;background:var(--pop);
+    display:flex;align-items:center;justify-content:center;font-size:20px}
+
+  /* footer */
+  .footer{background:var(--ink);color:var(--paper);text-align:center;padding:64px 24px 44px}
+  .footer .fm{font-family:'Great Vibes',cursive;font-size:clamp(30px,6vw,48px);color:var(--blush);line-height:1}
+  .footer .fw{font-family:'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:-.02em;
+    font-size:clamp(22px,4vw,34px);margin-top:4px}
+  .footer .fw span{color:var(--pop)}
+  .footer .fnote{color:#8a8f99;font-size:12.5px;margin-top:22px;max-width:52ch;margin-left:auto;margin-right:auto}
+
+  /* responsive */
+  @media(max-width:860px){
+    .hero-grid{grid-template-columns:1fr;gap:8px}
+    .pinstack{height:300px;margin-top:20px;max-width:480px}
+    .hero p.lead{max-width:38ch}
+    .pains{grid-template-columns:1fr}
+    .cards{grid-template-columns:1fr;max-width:440px;margin:0 auto}
+    .paid .inner{grid-template-columns:1fr;gap:32px}
+    .paid .card-visual{max-width:360px;order:-1}
+  }
+  @media(max-width:460px){
+    .pin{width:128px;height:186px}
+    .pin.p1{left:2%}.pin.p3{left:56%}
+    .cta-row{gap:14px}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- top bar -->
+<div class="wrap">
+  <header class="bar">
+    <div class="mark">PRINTLY<span>POP</span></div>
+    <a class="nav" href="#toolkit">What you get ↓</a>
+  </header>
+</div>
+
+<!-- HERO -->
+<div class="wrap">
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">Free Pinterest toolkit · for POD sellers</p>
+        <h1 class="display">Get your pins in front of&nbsp;buyers.</h1>
+        <p class="script">Print Positive. Live Bold.</p>
+        <p class="lead">Three free tools that take the guesswork out of Pinterest — the right keywords, the right timing, and a simple way to see what's actually working.</p>
+        <div class="cta-row">
+          <a class="btn" href="#optin">Get the free toolkit</a>
+          <a class="textlink" href="#toolkit">See what's inside</a>
+        </div>
+      </div>
+      <div class="pinstack" aria-hidden="true">
+        <div class="pin p1"><span class="tag">Find</span><div class="big">Key&shy;words</div><div class="save">↓</div></div>
+        <div class="pin p2"><span class="tag">Time</span><div class="big">Season&shy;al</div><div class="save">↓</div></div>
+        <div class="pin p3"><span class="tag">Track</span><div class="big">What<br>works</div><div class="save">↓</div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PROBLEM / WHY -->
+<section class="problem">
+  <div class="wrap">
+    <p class="eyebrow">Why this matters</p>
+    <h2 class="display" style="margin-top:14px">Pinning, but nothing's selling?</h2>
+    <p class="sub">When POD pins don't bring buyers, it's almost always one of these three things — and each one is fixable.</p>
+    <div class="pains">
+      <div class="pain">
+        <div class="n">01</div>
+        <p>You're using keywords <b>browsers</b> search, not the ones <b>buyers</b> type when they're ready to purchase.</p>
+      </div>
+      <div class="pain">
+        <div class="n">02</div>
+        <p>You pin seasonal designs <b>too late</b> — Pinterest needs weeks of lead time before a season peaks.</p>
+      </div>
+      <div class="pain">
+        <div class="n">03</div>
+        <p>You can't tell which pins actually work, so you keep <b>guessing</b> instead of repeating your winners.</p>
+      </div>
+    </div>
+    <p class="fixline">The free toolkit fixes <em>all three.</em></p>
+  </div>
+</section>
+
+<!-- FREE TOOLKIT -->
+<section class="toolkit" id="toolkit">
+  <div class="wrap">
+    <h2 class="display">Three free tools. One job each.</h2>
+    <p class="kicker">Every tool is a complete, downloadable file — built for print-on-demand sellers, ready to use the moment you open it.</p>
+
+    <div class="cards">
+      <!-- FIND -->
+      <article class="card c1">
+        <div class="top">
+          <span class="verb">Find</span>
+          <h3>Pinterest Keyword Starter Pack</h3>
+        </div>
+        <div class="body">
+          <p class="why">So buyers can actually find your pins.</p>
+          <p class="what"><span class="lbl">What you get</span>100 seller-focused keywords sorted into four buckets — Evergreen, Commercial, Trending and Seasonal — with a page on exactly how to use them.</p>
+          <p class="fmt">Printable PDF</p>
+        </div>
+      </article>
+
+      <!-- TIME -->
+      <article class="card c2">
+        <div class="top">
+          <span class="verb">Time</span>
+          <h3>Seasonal POD Keyword Calendar</h3>
+        </div>
+        <div class="body">
+          <p class="why">So you start pinning before buyers start searching.</p>
+          <p class="what"><span class="lbl">What you get</span>A year-at-a-glance timeline with a start-pinning date and a peak date for every season, plus the exact keywords to use for each one.</p>
+          <p class="fmt">Printable PDF</p>
+        </div>
+      </article>
+
+      <!-- TRACK -->
+      <article class="card c3">
+        <div class="top">
+          <span class="verb">Track</span>
+          <h3>Manual Pin Tracker</h3>
+        </div>
+        <div class="body">
+          <p class="why">So you know what's working and do more of it.</p>
+          <p class="what"><span class="lbl">What you get</span>A spreadsheet that scores every pin from your saves and clicks, flags your winners automatically, and ranks your top performers on a dashboard.</p>
+          <p class="fmt">Excel spreadsheet</p>
+        </div>
+      </article>
+    </div>
+
+    <!-- OPT-IN -->
+    <div class="optin" id="optin">
+      <h3>Get all three, free.</h3>
+      <p>Drop your email and we'll send the whole toolkit straight to your inbox — no cost, no catch.</p>
+      <form class="form" action="#" method="post" onsubmit="return false;">
+        <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required>
+        <button class="btn" type="submit">Send me the toolkit</button>
+      </form>
+      <p class="fine">One email with your download links. Unsubscribe anytime.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAID PRODUCT -->
+<section class="paid">
+  <div class="wrap">
+    <div class="inner">
+      <div>
+        <p class="eyebrow">When you're ready to stop guessing</p>
+        <h2>Pinterest POD Analytics Kit 2026</h2>
+        <p class="desc">The free tools show you the method by hand. The Kit does the heavy lifting — so you spend minutes on strategy instead of hours in spreadsheets.</p>
+        <ul>
+          <li>Live keyword momentum, so you back winners early</li>
+          <li>A 13-week posting engine mapped to your keywords</li>
+          <li>Seasonal timing built in, gated to the right dates</li>
+        </ul>
+        <div class="price">
+          <span class="now">$47</span>
+          <span class="was">$79</span>
+          <span class="tag">Launch price</span>
+        </div>
+        <a class="btn" href="https://gumroad.com/l/your-product" target="_blank" rel="noopener">Get the Analytics Kit</a>
+      </div>
+      <div class="card-visual" aria-hidden="true">
+        <div class="dot">★</div>
+        <div>
+          <div class="kd">Pinterest POD Analytics Kit</div>
+          <p class="kmeta" style="margin-top:12px">Keywords · Schedule · Seasonal timing — done for you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="fm">Printlypop</div>
+  <div class="fw">PRINTLY<span>POP</span></div>
+  <p class="fnote">Free Pinterest tools for print-on-demand sellers. Not affiliated with Pinterest, Inc.</p>
+</footer>
+
+</body>
+</html>
